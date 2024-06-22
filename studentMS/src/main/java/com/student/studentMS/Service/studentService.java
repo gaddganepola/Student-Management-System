@@ -33,4 +33,9 @@ public class studentService {
 
         return repo.findById(id).get();
     }
+
+    public boolean checkMobile(String mobile) {
+
+        return repo.existsByMobile(mobile);
+    }
 }
