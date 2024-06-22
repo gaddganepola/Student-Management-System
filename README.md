@@ -1,1 +1,1 @@
-https://student-management-system-ashen.vercel.app/
+https://student-management-dine.vercel.app/
