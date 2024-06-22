@@ -50,11 +50,17 @@ public class StudentController {
 
     }
 
-    @RequestMapping(value = "/search/{id}")
+    @GetMapping(value = "/search/{id}")
     private Student getStudentById(@PathVariable(name = "id") String id) {
 
         return studentService.getStudentById(id);
 
+    }
+
+    //check the mobile number availability api
+    @RequestMapping(value = "/check/{mobile}",method = RequestMethod.GET)
+    private boolean checkMobile(@PathVariable("mobile") String mobile) {
+        return studentService.checkMobile(mobile);
     }
 
 
