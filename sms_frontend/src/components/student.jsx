@@ -74,7 +74,7 @@ function Student() {
     setName(students.studentName);
     setAddress(students.studentAddress);
     setMobile(students.mobile);
-    setId(students._id);
+    setId(students.id);
   }
 
   async function DeleteStudent(studentid) {
