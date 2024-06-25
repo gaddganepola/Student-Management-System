@@ -30,7 +30,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/getAll")
-    private Iterable<Student> getStrudents() {
+    private Iterable<Student> getStudents() {
 
         return studentService.listAll();
 
