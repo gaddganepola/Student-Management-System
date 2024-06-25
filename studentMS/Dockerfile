@@ -1,12 +1,4 @@
-# Use an official Maven image with Java 17
-FROM maven:3.9.7-openjdk-17 AS build
-
-# Install OpenJDK 22 manually
-RUN apt-get update && \
-    apt-get install -y openjdk-22-jdk
-
-# Set JAVA_HOME to Java 22
-ENV JAVA_HOME=/usr/lib/jvm/java-22-openjdk-amd64
+FROM maven:3.8.4-openjdk-17 AS build
 
 # Set the working directory in the container
 WORKDIR /app
