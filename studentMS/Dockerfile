@@ -1,19 +1,29 @@
-# Use an official Maven image with Java 22
-FROM maven:3.8.6-jdk-22 AS build
+# Use an official Maven image with Java 17
+FROM maven:3.9.7-openjdk-22 AS build
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml and src directory to the container
-COPY pom.xml .
-COPY src ./src
+# Copy the pom.xml file to the container
+COPY ./pom.xml .
+
+# Download dependencies and plugins (warm-up Maven's cache)
+RUN mvn dependency:go-offline
+
+# Copy the entire project to the container
+COPY . .
 
 # Build the application
-RUN mvn clean install
+RUN mvn clean package
 
-# Second stage for creating the minimal runtime image
+# Second stage for creating a smaller image
 FROM openjdk:17-jdk-alpine3.14
+
+# Set the working directory in the container
 WORKDIR /app
-COPY --from=build /app/target/studentMS-0.0.1-SNAPSHOT.jar /app/studentMS.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "studentMS.jar"]
+
+# Copy the built artifact from the build stage
+COPY --from=build /app/target/studentMS-0.0.1-SNAPSHOT.jar ./app.jar
+
+# Command to run the application
+CMD ["java", "-jar", "app.jar"]
