@@ -1,8 +1,8 @@
-# Start with a base image that includes OpenJDK 11
-FROM openjdk:11-jdk-slim AS build
+# Start with a base image that includes OpenJDK 17
+FROM openjdk:17-jdk-slim AS build
 
 # Install Maven manually
-ENV MAVEN_VERSION 3.8.4
+ENV MAVEN_VERSION 3.9.7
 ENV MAVEN_HOME /usr/share/maven
 
 RUN apt-get update && \
@@ -25,7 +25,7 @@ COPY . .
 RUN mvn clean package
 
 # Final stage for creating a smaller image
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jre-slim
 
 # Set the working directory in the container
 WORKDIR /app
