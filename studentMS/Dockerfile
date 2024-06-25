@@ -1,15 +1,13 @@
-# Start with a base image that includes OpenJDK 17
-FROM openjdk:17-jdk-alpine3.14 AS build
+# Start with a base image that includes OpenJDK 11
+FROM openjdk:11-jdk-slim AS build
 
 # Install Maven manually
 ENV MAVEN_VERSION 3.8.4
 ENV MAVEN_HOME /usr/share/maven
 
-RUN wget -q "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -O /tmp/apache-maven.tar.gz \
-    && mkdir -p $MAVEN_HOME \
-    && tar -xzf /tmp/apache-maven.tar.gz -C $MAVEN_HOME --strip-components=1 \
-    && ln -s $MAVEN_HOME/bin/mvn /usr/bin/mvn \
-    && rm -f /tmp/apache-maven.tar.gz
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean;
 
 # Set the working directory in the container
 WORKDIR /app
@@ -27,7 +25,7 @@ COPY . .
 RUN mvn clean package
 
 # Final stage for creating a smaller image
-FROM openjdk:17-jdk-alpine3.14
+FROM openjdk:11-jre-slim
 
 # Set the working directory in the container
 WORKDIR /app
